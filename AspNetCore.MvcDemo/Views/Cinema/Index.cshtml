@@ -1,23 +1,26 @@
-﻿@model IEnumerable<AspNetCore.MvcDemo.Models.Cinema>
+﻿@using AspNetCore.MvcDemo.Settings
+@using Microsoft.Extensions.Options
+@model IEnumerable<AspNetCore.MvcDemo.Models.Cinema>
+@inject IOptions<ConnectionOptions> options;
 
-    <div class="container">
-        <div class="row">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">
-
-                        </th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Capacity</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @Html.DisplayForModel()
-                </tbody>
-            </table>
-            <a asp-action="Add">添加</a>
-        </div>
+<div class="container">
+    <div class="row">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">
+                        Name
+                    </th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Capacity</th>
+                    <th>操作 - @options.Value.DefaultConnection</th>
+                </tr>
+            </thead>
+            <tbody>
+                @Html.DisplayForModel()
+            </tbody>
+        </table>
+        <a asp-action="Add">添加</a>
     </div>
+</div>

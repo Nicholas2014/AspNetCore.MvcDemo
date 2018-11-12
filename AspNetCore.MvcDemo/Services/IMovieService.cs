@@ -9,5 +9,7 @@ namespace AspNetCore.MvcDemo.Services
     {
         Task AddAsync(Movie movie);
         Task<IEnumerable<Movie>> GetByCinemaAsync(int cinemaId);
+        Task<Movie> GetByIdAsync(int id);
+        Task DeleteAsync(int movieId);
     }
 }

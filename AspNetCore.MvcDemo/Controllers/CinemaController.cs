@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCore.MvcDemo.Models;
+﻿using AspNetCore.MvcDemo.Models;
 using AspNetCore.MvcDemo.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using AspNetCore.MvcDemo.Settings;
+using Microsoft.Extensions.Options;
 
 namespace AspNetCore.MvcDemo.Controllers
 {
-    public class CinemaController:Controller
+    public class CinemaController : Controller
     {
         private readonly ICinemaService _cinemaService;
+        private readonly IOptions<ConnectionOptions> _options;
 
-        public CinemaController(ICinemaService cinemaService)
+        public CinemaController(ICinemaService cinemaService,IOptions<ConnectionOptions> options)
         {
             _cinemaService = cinemaService;
+            _options = options;
         }
         public async Task<IActionResult> Index()
         {
@@ -40,8 +41,47 @@ namespace AspNetCore.MvcDemo.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Edit(int cinemaId)
+        public async Task<IActionResult> Edit(int cinemaId)
         {
+            var cinema = await _cinemaService.GetByIdAsync(cinemaId);
+            if (cinema == null)
+            {
+                return NotFound();
+            }
+            ViewBag.Title = $"编辑电影院 - {cinema.Name}";
+
+            return View(cinema);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Cinema model)
+        {
+            var cinema = await _cinemaService.GetByIdAsync(model.Id);
+            if (cinema == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                cinema.Name = model.Name;
+                cinema.Location = model.Location;
+                cinema.Capacity = model.Capacity;
+            }
+
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromQuery]int cinemaId)
+        {
+            var cinema = await _cinemaService.GetByIdAsync(cinemaId);
+            if (cinema == null)
+            {
+                return NotFound();
+            }
+
+            await _cinemaService.DeleteAsync(cinemaId);
+
             return RedirectToAction("Index");
         }
     }

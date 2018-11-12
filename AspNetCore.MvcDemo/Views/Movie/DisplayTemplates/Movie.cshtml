@@ -8,5 +8,6 @@
     <td>@Model.Starring</td>
     <td>
         <a asp-controller="Movie" asp-action="Edit" asp-route-movieId="@Model.Id">编辑</a>
+        <a asp-controller="Movie" asp-action="Delete" asp-route-movieId="@Model.Id">删除</a>
     </td>
 </tr>

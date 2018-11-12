@@ -3,11 +3,12 @@
 <tr>
     <td>@Model.Id</td>
     <td>
-        <a asp-controller="Movie" asp-action="Index" asp-route-cinemaId="@Model.Id">@Model.Name</a>
+        <a asp-controller="Movie" asp-action="Index" asp-route-cinemaId="@Model.Id">@Model.Name (@await Component.InvokeAsync("MovieCount", new { cinemaId = Model.Id }) )</a>
     </td>
     <td>@Model.Location</td>
     <td>@Model.Capacity</td>
     <td>
         <a asp-controller="Cinema" asp-action="Edit" asp-route-cinemaId="@Model.Id">编辑</a>
+        <a asp-controller="Cinema" asp-action="Delete" asp-route-cinemaId="@Model.Id">删除</a>
     </td>
 </tr>

@@ -1,4 +1,5 @@
 ﻿using AspNetCore.MvcDemo.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,19 @@ namespace AspNetCore.MvcDemo.Services
         public Task<IEnumerable<Movie>> GetByCinemaAsync(int cinemaId)
         {
             return Task.FromResult(_movies.Where(r => r.CinemaId == cinemaId));
+        }
+
+        public Task<Movie> GetByIdAsync(int id)
+        {
+            return Task.FromResult(_movies.SingleOrDefault(r => r.Id == id));
+        }
+
+        public Task DeleteAsync(int movieId)
+        {
+            var movie = _movies.Find(r => r.Id == movieId);
+            _movies.Remove(movie);
+
+            return Task.CompletedTask;
         }
     }
 }

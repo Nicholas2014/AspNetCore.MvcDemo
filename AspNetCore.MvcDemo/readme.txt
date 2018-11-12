@@ -35,4 +35,5 @@ Model Binding
 Routing
 Attibute
 
-
+*** View Component
+相当于partial view

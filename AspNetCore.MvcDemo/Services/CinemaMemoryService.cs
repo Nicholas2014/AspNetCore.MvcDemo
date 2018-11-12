@@ -1,5 +1,4 @@
 ﻿using AspNetCore.MvcDemo.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,12 +36,20 @@ namespace AspNetCore.MvcDemo.Services
             return Task.FromResult(_cinemas.FirstOrDefault(x => x.Id == id));
         }
 
-        
+
 
         public Task AddAsync(Cinema cinema)
         {
             cinema.Id = _cinemas.Max(x => x.Id) + 1;
             _cinemas.Add(cinema);
+
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteAsync(int cinemaId)
+        {
+            var cinema = _cinemas.Find(r => r.Id == cinemaId);
+            _cinemas.Remove(cinema);
 
             return Task.CompletedTask;
         }

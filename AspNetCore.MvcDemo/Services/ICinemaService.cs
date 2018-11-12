@@ -11,5 +11,6 @@ namespace AspNetCore.MvcDemo.Services
         Task<Cinema> GetByIdAsync(int id);
         //Task<Sales> GetSalesAsync();
         Task AddAsync(Cinema cinema);
+        Task DeleteAsync(int cinemaId);
     }
 }
